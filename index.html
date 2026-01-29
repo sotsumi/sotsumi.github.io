@@ -2,68 +2,134 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Random Reddit Links</title>
+    <title>Random Reddit Saved Posts</title>
+
     <style>
         body {
-            font-family: sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f6f7f8;
+            margin: 0;
+            padding: 2rem;
+            color: #1c1c1c;
         }
-        button {
-            margin: 0.25rem 0;
-            display: block;
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 1.4rem;
+        }
+
+        p {
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        #load {
+            width: 100%;
+            padding: 0.6rem;
+            font-size: 1rem;
+            background: #0079d3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #load:hover {
+            background: #0060a8;
+        }
+
+        #results {
+            margin-top: 1.5rem;
+        }
+
+        .post {
+            display: flex;
+            justify-content: space-between;
+            align-items: centre;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            background: #fafafa;
+        }
+
+        .post span {
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        .post button {
+            background: transparent;
+            border: 1px solid #0079d3;
+            color: #0079d3;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .post button:hover {
+            background: #0079d3;
+            color: white;
         }
     </style>
 </head>
+
 <body>
+    <div class="container">
+        <h1>Random Reddit Saved Posts</h1>
+        <p>Click the button to open ten randomly selected saved posts.</p>
 
-<button id="load">Get 10 random posts</button>
-<div id="results"></div>
+        <button id="load">Get 10 random posts</button>
 
-<script>
-    async function loadCSV() {
-        const response = await fetch('data.csv');
-        const text = await response.text();
-        return parseCSV(text);
-    }
+        <div id="results"></div>
+    </div>
 
-    function parseCSV(text) {
-        const lines = text.trim().split('\n');
-        const headers = lines.shift().split(',').map(h => h.replace(/"/g, ''));
+    <script>
+        const loadButton = document.getElementById('load');
+        const container = document.getElementById('results');
 
-        return lines.map(line => {
-            const values = line.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)
-                .map(v => v.replace(/^"|"$/g, ''));
+        loadButton.addEventListener('click', () => {
+            fetch('data.csv')
+                .then(r => r.text())
+                .then(text => {
+                    container.innerHTML = '';
 
-            const entry = {};
-            headers.forEach((h, i) => entry[h] = values[i]);
-            return entry;
+                    const lines = text.trim().split('\n');
+                    const rows = lines.slice(1).map(line => line.split(','));
+
+                    rows.sort(() => Math.random() - 0.5);
+
+                    rows.slice(0, 10).forEach(row => {
+                        const id = row[0];
+                        const subreddit = row[3];
+                        const title = row[5];
+                        const url = `https://www.reddit.com/r/${subreddit}/comments/${id}`;
+
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'post';
+
+                        const label = document.createElement('span');
+                        label.textContent = `r/${subreddit}: ${title}`;
+
+                        const button = document.createElement('button');
+                        button.textContent = 'Open';
+                        button.onclick = () => window.open(url, '_blank');
+
+                        wrapper.appendChild(label);
+                        wrapper.appendChild(button);
+                        container.appendChild(wrapper);
+                    });
+                });
         });
-    }
-
-    function getRandomItems(array, count) {
-        const shuffled = [...array].sort(() => 0.5 - Math.random());
-        return shuffled.slice(0, count);
-    }
-
-    document.getElementById('load').addEventListener('click', async () => {
-        const data = await loadCSV();
-        const selected = getRandomItems(data, 10);
-
-        const results = document.getElementById('results');
-        results.innerHTML = '';
-
-        selected.forEach(item => {
-            const link = `https://reddit.com/r/${item.subreddit}/comments/${item.id}`;
-
-            const button = document.createElement('button');
-            button.textContent = item.title || link;
-            button.onclick = () => {
-                window.open(link, '_blank');
-            };
-
-            results.appendChild(button);
-        });
-    });
-</script>
-
+    </script>
 </body>
 </html>
