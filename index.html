@@ -109,9 +109,9 @@
                     rows.sort(() => Math.random() - 0.5);
 
                     rows.slice(0, 10).forEach(row => {
-                        const id = row[0];
-                        const subreddit = row[3];
-                        const title = row[5];
+                        const id = row[0].slice(1).slice(0, -1);
+                        const subreddit = row[3].slice(1).slice(0, -1);
+                        const title = row[5].slice(1).slice(0, -1);
                         const url = `https://www.reddit.com/r/${subreddit}/comments/${id}`;
 
                         const wrapper = document.createElement('div');
