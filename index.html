@@ -307,10 +307,10 @@
                         throw new Error('Could not find the tweets table in data.json');
                     }
 
-                    const tweets = json.data.data
-                        .filter(entry => entry.tableName === 'tweets')
-                        .flatMap(entry => entry.rows)
-                        .filter(tweet =>
+                    const tweets = tweetsTable.rows.filter(tweet =>
+                        tweet.legacy &&
+                        tweet.legacy.bookmarked === true
+                    );
 
                     if (tweets.length === 0) {
                         showMessage('No bookmarked tweets found.');
