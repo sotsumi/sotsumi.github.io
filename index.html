@@ -299,18 +299,16 @@
                 .then(json => {
                     container.innerHTML = '';
 
-                    const tweetsTable = json.data?.tables?.find(
-                        table => table.name === 'tweets'
-                    );
+                    const tweetEntries = json.data?.data;
 
-                    if (!tweetsTable) {
-                        throw new Error('Could not find the tweets table in data.json');
+                    if (!Array.isArray(tweetEntries)) {
+                        throw new Error('Could not find tweet rows in data.json');
                     }
 
-                    const tweets = tweetsTable.rows.filter(tweet =>
-                        tweet.legacy &&
-                        tweet.legacy.bookmarked === true
-                    );
+                    const tweets = tweetEntries
+                        .filter(entry => entry.tableName === 'tweets')
+                        .flatMap(entry => entry.rows || [])
+                        .filter(tweet => tweet?.legacy && (tweet.rest_id || tweet.legacy.id_str));
 
                     if (tweets.length === 0) {
                         showMessage('No bookmarked tweets found.');
@@ -320,7 +318,7 @@
                     shuffle(tweets).slice(0, 10).forEach(tweet => {
                         const id = tweet.rest_id || tweet.legacy.id_str;
                         const user = tweet.core?.user_results?.result?.core?.screen_name || 'unknown';
-                        const text = removeTwitterShortLinks(tweet.legacy.full_text || '[No text]');
+                        const text = removeTwitterShortLinks(tweet.legacy?.full_text || '[No text]');
                         const url = `https://x.com/${user}/status/${id}`;
 
                         addPost(`@${user}: ${text}`, url);
