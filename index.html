@@ -1,364 +1,326 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Saved Posts</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0f1115;
-            margin: 0;
-            padding: 1.25rem;
-            color: #e6e6e6;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-            background: #181b20;
-            padding: 1.25rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-        }
-
-        h1 {
-            margin-top: 0;
-            font-size: clamp(1.35rem, 4vw, 1.55rem);
-            line-height: 1.15;
-            color: #f2f2f2;
-        }
-
-        p {
-            color: #a8adb7;
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .tabs button {
-            flex: 1;
-            padding: 0.75rem;
-            border-radius: 6px;
-            border: 1px solid #3a8fd8;
-            background: transparent;
-            color: #7bbcff;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .tabs button.active {
-            background: #3a8fd8;
-            color: white;
-        }
-
-        .load-button {
-            width: 100%;
-            padding: 0.85rem;
-            font-size: 1rem;
-            background: #3a8fd8;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .load-button:hover {
-            background: #5aa3e6;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        #results {
-            margin-top: 1.5rem;
-        }
-
-        .post {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            border: 1px solid #2b3038;
-            border-radius: 6px;
-            margin-bottom: 0.75rem;
-            background: #20242b;
-        }
-
-        .post span {
-            flex: 1;
-            min-width: 0;
-            font-size: 0.9rem;
-            line-height: 1.35;
-            color: #d7dce5;
-            overflow-wrap: anywhere;
-            white-space: pre-wrap;
-        }
-
-        .post button {
-            flex-shrink: 0;
-            background: transparent;
-            border: 1px solid #3a8fd8;
-            color: #7bbcff;
-            padding: 0.4rem 0.65rem;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .post button:hover {
-            background: #3a8fd8;
-            color: white;
-        }
-
-        .message {
-            color: #a8adb7;
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 0;
-            }
-
-            .container {
-                min-height: 100vh;
-                padding: 1rem;
-                border-radius: 0;
-                box-shadow: none;
-            }
-
-            h1 {
-                font-size: 1.45rem;
-            }
-
-            p {
-                font-size: 1rem;
-            }
-
-            .load-button {
-                padding: 1rem;
-                font-size: 1.05rem;
-            }
-
-            .post {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0.9rem;
-                padding: 1rem;
-            }
-
-            .post span {
-                font-size: 1rem;
-                line-height: 1.45;
-            }
-
-            .post button {
-                width: 100%;
-                padding: 0.85rem;
-                font-size: 1rem;
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        <h1>Random Saved Posts</h1>
-        <p>Choose a source, then open ten randomly selected saved posts.</p>
-
-        <div class="tabs">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Random Saved Posts</title>
+      <style>
+         * {
+         box-sizing: border-box;
+         }
+         body {
+         font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+         background: #0f1115;
+         margin: 0;
+         padding: 1.25rem;
+         color: #e6e6e6;
+         }
+         .container {
+         width: 100%;
+         max-width: 600px;
+         margin: 0 auto;
+         background: #181b20;
+         padding: 1.25rem;
+         border-radius: 10px;
+         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+         }
+         h1 {
+         margin-top: 0;
+         font-size: clamp(1.35rem, 4vw, 1.55rem);
+         line-height: 1.15;
+         color: #f2f2f2;
+         }
+         p {
+         color: #a8adb7;
+         margin-bottom: 1rem;
+         font-size: 0.95rem;
+         line-height: 1.4;
+         }
+         .tabs {
+         display: flex;
+         gap: 0.5rem;
+         margin-bottom: 1rem;
+         }
+         .tabs button {
+         flex: 1;
+         padding: 0.75rem;
+         border-radius: 6px;
+         border: 1px solid #3a8fd8;
+         background: transparent;
+         color: #7bbcff;
+         cursor: pointer;
+         font-size: 1rem;
+         }
+         .tabs button.active {
+         background: #3a8fd8;
+         color: white;
+         }
+         .load-button {
+         width: 100%;
+         padding: 0.85rem;
+         font-size: 1rem;
+         background: #3a8fd8;
+         color: white;
+         border: none;
+         border-radius: 6px;
+         cursor: pointer;
+         }
+         .load-button:hover {
+         background: #5aa3e6;
+         }
+         .hidden {
+         display: none;
+         }
+         #results {
+         margin-top: 1.5rem;
+         }
+         .post {
+         display: flex;
+         justify-content: space-between;
+         align-items: flex-start;
+         gap: 0.75rem;
+         padding: 0.75rem;
+         border: 1px solid #2b3038;
+         border-radius: 6px;
+         margin-bottom: 0.75rem;
+         background: #20242b;
+         }
+         .post span {
+         flex: 1;
+         min-width: 0;
+         font-size: 0.9rem;
+         line-height: 1.35;
+         color: #d7dce5;
+         overflow-wrap: anywhere;
+         white-space: pre-wrap;
+         }
+         .post button {
+         flex-shrink: 0;
+         background: transparent;
+         border: 1px solid #3a8fd8;
+         color: #7bbcff;
+         padding: 0.4rem 0.65rem;
+         border-radius: 4px;
+         cursor: pointer;
+         }
+         .post button:hover {
+         background: #3a8fd8;
+         color: white;
+         }
+         .message {
+         color: #a8adb7;
+         font-size: 0.95rem;
+         line-height: 1.4;
+         }
+         @media (max-width: 480px) {
+         body {
+         padding: 0;
+         }
+         .container {
+         min-height: 100vh;
+         padding: 1rem;
+         border-radius: 0;
+         box-shadow: none;
+         }
+         h1 {
+         font-size: 1.45rem;
+         }
+         p {
+         font-size: 1rem;
+         }
+         .load-button {
+         padding: 1rem;
+         font-size: 1.05rem;
+         }
+         .post {
+         flex-direction: column;
+         align-items: stretch;
+         gap: 0.9rem;
+         padding: 1rem;
+         }
+         .post span {
+         font-size: 1rem;
+         line-height: 1.45;
+         }
+         .post button {
+         width: 100%;
+         padding: 0.85rem;
+         font-size: 1rem;
+         }
+         }
+      </style>
+   </head>
+   <body>
+      <div class="container">
+         <h1>Random Saved Posts</h1>
+         <p>Choose a source, then open ten randomly selected saved posts.</p>
+         <div class="tabs">
             <button id="tab-reddit" class="active">Reddit</button>
             <button id="tab-twitter">Twitter/X</button>
-        </div>
-
-        <button id="load-reddit" class="load-button">Get 10 random Reddit posts</button>
-        <button id="load-twitter" class="load-button hidden">Get 10 random tweets</button>
-
-        <div id="results"></div>
-    </div>
-
-    <script>
-        const loadRedditButton = document.getElementById('load-reddit');
-        const loadTwitterButton = document.getElementById('load-twitter');
-        const redditTab = document.getElementById('tab-reddit');
-        const twitterTab = document.getElementById('tab-twitter');
-        const container = document.getElementById('results');
-
-        function clearActiveTabs() {
-            redditTab.classList.remove('active');
-            twitterTab.classList.remove('active');
-        }
-
-        redditTab.addEventListener('click', () => {
-            clearActiveTabs();
-            redditTab.classList.add('active');
-            loadRedditButton.classList.remove('hidden');
-            loadTwitterButton.classList.add('hidden');
-            container.innerHTML = '';
-        });
-
-        twitterTab.addEventListener('click', () => {
-            clearActiveTabs();
-            twitterTab.classList.add('active');
-            loadTwitterButton.classList.remove('hidden');
-            loadRedditButton.classList.add('hidden');
-            container.innerHTML = '';
-        });
-
-        function shuffle(array) {
-            const copy = [...array];
-
-            for (let i = copy.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [copy[i], copy[j]] = [copy[j], copy[i]];
-            }
-
-            return copy;
-        }
-
-        function parseCsvLine(line) {
-            const values = [];
-            let current = '';
-            let insideQuotes = false;
-
-            for (let i = 0; i < line.length; i++) {
-                const char = line[i];
-                const nextChar = line[i + 1];
-
-                if (char === '"' && nextChar === '"') {
-                    current += '"';
-                    i++;
-                } else if (char === '"') {
-                    insideQuotes = !insideQuotes;
-                } else if (char === ',' && !insideQuotes) {
-                    values.push(current);
-                    current = '';
-                } else {
-                    current += char;
-                }
-            }
-
-            values.push(current);
-            return values;
-        }
-
-        loadRedditButton.addEventListener('click', () => {
-            fetch('data.csv')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Could not load data.csv');
-                    }
-
-                    return response.text();
-                })
-                .then(text => {
-                    container.innerHTML = '';
-
-                    const lines = text.trim().split(/\r?\n/);
-                    const rows = lines.slice(1).map(parseCsvLine);
-
-                    shuffle(rows).slice(0, 10).forEach(row => {
-                        const id = row[0];
-                        const subreddit = row[3];
-                        const title = row[5];
-                        const url = `https://www.reddit.com/r/${subreddit}/comments/${id}`;
-
-                        addPost(`r/${subreddit}: ${title}`, url);
-                    });
-                })
-                .catch(error => {
-                    showMessage(error.message);
-                });
-        });
-
-        loadTwitterButton.addEventListener('click', () => {
-            fetch('data.json')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Could not load data.json');
-                    }
-
-                    return response.json();
-                })
-                .then(json => {
-                    container.innerHTML = '';
-
-                    const tweetEntries = json.data?.data;
-
-                    if (!Array.isArray(tweetEntries)) {
-                        throw new Error('Could not find tweet rows in data.json');
-                    }
-
-                    const tweets = tweetEntries
-                        .filter(entry => entry.tableName === 'tweets')
-                        .flatMap(entry => entry.rows || [])
-                        .filter(tweet => tweet?.legacy && (tweet.rest_id || tweet.legacy.id_str));
-
-                    if (tweets.length === 0) {
-                        showMessage('No bookmarked tweets found.');
-                        return;
-                    }
-
-                    shuffle(tweets).slice(0, 10).forEach(tweet => {
-                        const id = tweet.rest_id || tweet.legacy.id_str;
-                        const user = tweet.core?.user_results?.result?.core?.screen_name || 'unknown';
-                        const text = removeTwitterShortLinks(tweet.legacy?.full_text || '[No text]');
-                        const url = `https://x.com/${user}/status/${id}`;
-
-                        addPost(`@${user}: ${text}`, url);
-                    });
-                })
-                .catch(error => {
-                    showMessage(error.message);
-                });
-        });
-
-        function removeTwitterShortLinks(text) {
-            return text.replace(/https:\/\/t\.co\/\S+/g, '').trim();
-        }
-
-        function addPost(labelText, url) {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'post';
-
-            const label = document.createElement('span');
-            label.textContent = labelText;
-
-            const button = document.createElement('button');
-            button.textContent = 'Open';
-            button.onclick = () => window.open(url, '_blank', 'noopener,noreferrer');
-
-            wrapper.appendChild(label);
-            wrapper.appendChild(button);
-            container.appendChild(wrapper);
-        }
-
-        function showMessage(message) {
-            container.innerHTML = '';
-
-            const element = document.createElement('p');
-            element.className = 'message';
-            element.textContent = message;
-
-            container.appendChild(element);
-        }
-    </script>
-</body>
-
+         </div>
+         <button id="load-reddit" class="load-button">Get 10 random Reddit posts</button>
+         <button id="load-twitter" class="load-button hidden">Get 10 random tweets</button>
+         <div id="results"></div>
+      </div>
+      <script>
+         const loadRedditButton = document.getElementById('load-reddit');
+         const loadTwitterButton = document.getElementById('load-twitter');
+         const redditTab = document.getElementById('tab-reddit');
+         const twitterTab = document.getElementById('tab-twitter');
+         const container = document.getElementById('results');
+         
+         function clearActiveTabs() {
+             redditTab.classList.remove('active');
+             twitterTab.classList.remove('active');
+         }
+         
+         redditTab.addEventListener('click', () => {
+             clearActiveTabs();
+             redditTab.classList.add('active');
+             loadRedditButton.classList.remove('hidden');
+             loadTwitterButton.classList.add('hidden');
+             container.innerHTML = '';
+         });
+         
+         twitterTab.addEventListener('click', () => {
+             clearActiveTabs();
+             twitterTab.classList.add('active');
+             loadTwitterButton.classList.remove('hidden');
+             loadRedditButton.classList.add('hidden');
+             container.innerHTML = '';
+         });
+         
+         function shuffle(array) {
+             const copy = [...array];
+         
+             for (let i = copy.length - 1; i > 0; i--) {
+                 const j = Math.floor(Math.random() * (i + 1));
+                 [copy[i], copy[j]] = [copy[j], copy[i]];
+             }
+         
+             return copy;
+         }
+         
+         function parseCsvLine(line) {
+             const values = [];
+             let current = '';
+             let insideQuotes = false;
+         
+             for (let i = 0; i < line.length; i++) {
+                 const char = line[i];
+                 const nextChar = line[i + 1];
+         
+                 if (char === '"' && nextChar === '"') {
+                     current += '"';
+                     i++;
+                 } else if (char === '"') {
+                     insideQuotes = !insideQuotes;
+                 } else if (char === ',' && !insideQuotes) {
+                     values.push(current);
+                     current = '';
+                 } else {
+                     current += char;
+                 }
+             }
+         
+             values.push(current);
+             return values;
+         }
+         
+         loadRedditButton.addEventListener('click', () => {
+             fetch('data.csv')
+                 .then(response => {
+                     if (!response.ok) {
+                         throw new Error('Could not load data.csv');
+                     }
+         
+                     return response.text();
+                 })
+                 .then(text => {
+                     container.innerHTML = '';
+         
+                     const lines = text.trim().split(/\r?\n/);
+                     const rows = lines.slice(1).map(parseCsvLine);
+         
+                     shuffle(rows).slice(0, 10).forEach(row => {
+                         const id = row[0];
+                         const subreddit = row[3];
+                         const title = row[5];
+                         const url = `https://www.reddit.com/r/${subreddit}/comments/${id}`;
+         
+                         addPost(`r/${subreddit}: ${title}`, url);
+                     });
+                 })
+                 .catch(error => {
+                     showMessage(error.message);
+                 });
+         });
+         
+         loadTwitterButton.addEventListener('click', () => {
+             fetch('data.json')
+                 .then(response => {
+                     if (!response.ok) {
+                         throw new Error('Could not load data.json');
+                     }
+         
+                     return response.json();
+                 })
+                 .then(tweets => {
+                     container.innerHTML = '';
+         
+                     if (!Array.isArray(tweets)) {
+                         throw new Error('data.json is not an array.');
+                     }
+         
+                     if (tweets.length === 0) {
+                         showMessage('No bookmarked tweets found.');
+                         return;
+                     }
+         
+                     shuffle(tweets).slice(0, 10).forEach(tweet => {
+                         const user = tweet.screen_name || 'unknown';
+                         const text = removeTwitterShortLinks(tweet.full_text || '[No text]');
+                         const url = tweet.url || `https://x.com/${user}/status/${tweet.id}`;
+         
+                         addPost(`@${user}: ${text}`, url);
+                     });
+                 })
+                 .catch(error => {
+                     showMessage(error.message);
+                 });
+         });
+         
+         function removeTwitterShortLinks(text) {
+             return (text || '')
+                 .replace(/https:\/\/t\.co\/\S+/g, '')
+                 .trim();
+         }
+         
+         function addPost(labelText, url) {
+             const wrapper = document.createElement('div');
+             wrapper.className = 'post';
+         
+             const label = document.createElement('span');
+             label.textContent = labelText;
+         
+             const button = document.createElement('button');
+             button.textContent = 'Open';
+             button.onclick = () => window.open(url, '_blank', 'noopener,noreferrer');
+         
+             wrapper.appendChild(label);
+             wrapper.appendChild(button);
+             container.appendChild(wrapper);
+         }
+         
+         function showMessage(message) {
+             container.innerHTML = '';
+         
+             const element = document.createElement('p');
+             element.className = 'message';
+             element.textContent = message;
+         
+             container.appendChild(element);
+         }
+      </script>
+   </body>
 </html>
